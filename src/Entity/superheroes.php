@@ -6,12 +6,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="superheroes")
- * @ApiResource()
+ * @ApiResource(
+ *   normalizationContext={"groups" = {"read"}},
+ *   denormalizationContext={"groups" = {"write"}}
+ * )
  */
 class superheroes
 {
@@ -19,28 +23,33 @@ class superheroes
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
+     * @Groups({"read"})
      */
     private $id;
 
     /**
      * @ORM\Column(length=70)
      * @Assert\NotBlank()
+     * @Groups({"read", "write"})
      */
     private $name;
 
     /**
      * @ORM\Column(length=70, unique=true)
      * @Assert\NotBlank()
+     * @Groups({"read", "write"})
      */
     private $slug;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"read", "write"})
      */
     private $featured = false;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"read"})
      */
     private $created_at;
 
