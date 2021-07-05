@@ -13,3 +13,4 @@ api_platform:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
+    allow_plain_identifiers: true
