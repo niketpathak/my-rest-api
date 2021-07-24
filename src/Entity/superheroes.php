@@ -25,33 +25,33 @@ class superheroes
      * @ORM\Column(type="integer")
      * @Groups({"read"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(length=70)
      * @Assert\NotBlank()
      * @Groups({"read", "write"})
      */
-    private $name;
+    public string $name;
 
     /**
      * @ORM\Column(length=70, unique=true)
      * @Assert\NotBlank()
      * @Groups({"read", "write"})
      */
-    private $slug;
+    public string $slug;
 
     /**
      * @ORM\Column(type="boolean")
      * @Groups({"read", "write"})
      */
-    private $featured = false;
+    public bool $featured = false;
 
     /**
      * @ORM\Column(type="datetime")
      * @Groups({"read"})
      */
-    private $created_at;
+    public ?\DateTime $created_at = null;
 
 
     /******** METHODS ********/
@@ -61,58 +61,14 @@ class superheroes
         return $this->id;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-    }
-
-    public function getFeatured()
-    {
-        return $this->featured;
-    }
-
-    public function setFeatured($featured)
-    {
-        $this->featured = $featured;
-    }
-    public function getCreatedAt()
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt($created_at)
-    {
-        $this->created_at = $created_at;
-    }
-
     /**
      * Prepersist gets triggered on Insert
      * @ORM\PrePersist
      */
     public function updatedTimestamps()
     {
-        if ($this->getCreatedAt() == null) {
-            $this->setCreatedAt(new \DateTime('now'));
+        if ($this->created_at == null) {
+            $this->created_at = new \DateTime('now');
         }
     }
 
