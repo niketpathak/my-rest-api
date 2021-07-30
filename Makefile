@@ -30,7 +30,7 @@ install:	## install project dependencies
 
 dev-server:	## start development server
 	@"${bold}" && "${YW}" && echo "*** Starting Development Server ***"  && $(call reset_colors)
-	symfony server:start
+	symfony server:start --no-tls
 
 refresh:	## refresh caches in dev env
 	@"${bold}" && "${YW}" && echo "*** Clearing and warming up cache for Dev ***" && $(call reset_colors)
