@@ -39,5 +39,4 @@ php ./bin/console doctrine:database:create
 Find the Tutorial on **[Digital Fortress](https://digitalfortress.tech/)**
 
 - [Setup Rest API with Symfony and API Platform](https://digitalfortress.tech/tutorial/rest-api-with-symfony-and-api-platform/)
-
----
+- [Handling File Uploads with API Platform](https://digitalfortress.tech/php/file-upload-with-api-platform-and-symfony/)

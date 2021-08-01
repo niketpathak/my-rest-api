@@ -6,8 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use Symfony\Component\Serializer\Annotation\Groups;
 use App\Controller\SuperheroBySlug;
+use App\Controller\SuperheroCoverController;
 
 /**
  * @ORM\Entity
@@ -16,6 +18,47 @@ use App\Controller\SuperheroBySlug;
  * @ApiResource(
  *   normalizationContext={"groups" = {"read"}},
  *   denormalizationContext={"groups" = {"write"}},
+ *   collectionOperations={
+ *     "get",
+ *     "post" = {
+ *       "controller" = SuperheroCoverController::class,
+ *       "deserialize" = false,
+ *       "openapi_context" = {
+ *         "requestBody" = {
+ *           "description" = "File upload to an existing resource (superheroes)",
+ *           "required" = true,
+ *           "content" = {
+ *             "multipart/form-data" = {
+ *               "schema" = {
+ *                 "type" = "object",
+ *                 "properties" = {
+ *                   "name" = {
+ *                     "description" = "The name of the superhero",
+ *                     "type" = "string",
+ *                     "example" = "Clark Kent",
+ *                   },
+ *                   "slug" = {
+ *                     "description" = "The slug of the superhero",
+ *                     "type" = "string",
+ *                     "example" = "superman",
+ *                   },
+ *                   "featured" = {
+ *                     "description" = "Whether this superhero should be featured or not",
+ *                     "type" = "boolean",
+ *                   },
+ *                   "file" = {
+ *                     "type" = "string",
+ *                     "format" = "binary",
+ *                     "description" = "Upload a cover image of the superhero",
+ *                   },
+ *                 },
+ *               },
+ *             },
+ *           },
+ *         },
+ *       },
+ *     },
+ *   },
  *   itemOperations={
  *     "get",
  *     "patch",
@@ -77,6 +120,22 @@ class superheroes
      * @Groups({"read"})
      */
     public ?\DateTime $created_at = null;
+
+    /**
+     * @param string $cover A cover image for this superhero
+     *
+     * @ORM\Column()
+     * @Groups({"read", "write"})
+     * @ApiProperty(
+     *   iri="http://schema.org/image",
+     *   attributes={
+     *     "openapi_context"={
+     *       "type"="string",
+     *     }
+     *   }
+     * )
+     */
+    public ?string $cover = null;
 
 
     /******** METHODS ********/
